@@ -98,6 +98,11 @@ export default function Dashboard({ user, userRole }) {
     await deleteDoc(doc(db, "requests", id));
   }
 
+  async function deleteEmployee(uid) {
+    if (!window.confirm("האם למחוק עובד זה לצמיתות?")) return;
+    await deleteDoc(doc(db, "users", uid));
+  }
+
   async function saveSchedule() {
     setSaving(true);
     await updateDoc(doc(db, "users", editSchedule.uid), {
@@ -307,6 +312,7 @@ export default function Dashboard({ user, userRole }) {
                       </div>
                       <div style={{ display:"flex", gap:6 }}>
                         <button onClick={() => { setEditSchedule({...emp, workDays:[...(emp.workDays||[0,1,2,3,4])], quota:emp.quota||20}); setShowScheduleEdit(emp.uid); }} style={{ background:"#0f172a", border:"1px solid #334155", borderRadius:8, padding:"5px 10px", color:"#94a3b8", cursor:"pointer", fontSize:12 }}>✏️</button>
+                        <button onClick={() => deleteEmployee(emp.uid)} style={{ background:"#fee2e222", border:"1px solid #ef444444", borderRadius:8, padding:"5px 10px", color:"#ef4444", cursor:"pointer", fontSize:12 }}>🗑️</button>
                       </div>
                     </div>
                     {currentRot && (
